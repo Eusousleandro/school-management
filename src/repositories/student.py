@@ -9,6 +9,15 @@ class StudentRepository:
 
     async def get_student_id(self, db: Session, id: int):
         return db.query(Student).filter(Student.id == id).first()
+    
+    async def get_student_email(self, db: Session, email: str):
+        return db.query(Student).filter(Student.email == email).first()
+    
+    async def get_student_cpf(self, db: Session, cpf: str):
+        return db.query(Student).filter(Student.cpf == cpf).first()
+    
+    async def get_student_rg(self, db: Session, rg: str):
+        return db.query(Student).filter(Student.rg == rg).first()
 
     async def create_student(self, db: Session, student: Student):
         student = Student(
