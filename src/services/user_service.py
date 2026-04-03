@@ -1,8 +1,6 @@
 from sqlmodel import Session
-
 from repositories.user_repository import UserRepository
 from fastapi import HTTPException
-
 from schemas.user import User, UserCreate
 
 class UserService:
