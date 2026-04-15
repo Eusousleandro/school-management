@@ -20,53 +20,19 @@ class StudentRepository:
         return db.query(Student).filter(Student.rg == rg).first()
 
     async def create_student(self, db: Session, student: Student):
-        student = Student(
-            name=student.name,
-            email=student.email,
-            cpf=student.cpf,
-            rg=student.rg,
-            date_of_birth=student.date_of_birth,
-            address=student.address,
-            number=student.number,
-            complement=student.complement,
-            city=student.city,
-            neighborhood=student.neighborhood,
-            state=student.state,
-            zip_code=student.zip_code,
-            phone=student.phone,
-            name_responsible_father=student.name_responsible_father,
-            name_responsible_mother=student.name_responsible_mother,
-            academy_responsible=student.academy_responsible,
-            financy_responsible=student.financy_responsible,
-            email_responsible_acadamy=student.email_responsible_acadamy,
-            financy_responsible_email=student.financy_responsible_email,
-        )
-        db.add(student)
+        new_student = Student(**student.dict())
+        db.add(new_student)
         db.commit()
-        db.refresh(student)
-        return student
+        db.refresh(new_student)
+        return new_student
 
     async def update_student(self, db: Session, id: int, student: Student):
         up_student = db.query(Student).filter(Student.id == id).first()
-        up_student.name = student.name
-        up_student.email = student.email
-        up_student.cpf = student.cpf
-        up_student.rg = student.rg
-        up_student.date_of_birth = student.date_of_birth
-        up_student.address = student.address
-        up_student.number = student.number
-        up_student.complement = student.complement
-        up_student.city = student.city
-        up_student.neighborhood = student.neighborhood
-        up_student.state = student.state
-        up_student.zip_code = student.zip_code
-        up_student.phone = student.phone
-        up_student.name_responsible_father = student.name_responsible_father
-        up_student.name_responsible_mother = student.name_responsible_mother
-        up_student.academy_responsible = student.academy_responsible
-        up_student.financy_responsible = student.financy_responsible
-        up_student.email_responsible_acadamy = student.email_responsible_acadamy
-        up_student.financy_responsible_email = student.financy_responsible_email
+        update_data = student.dict(exclude_unset=True)
+
+        for key, value in update_data.items():
+            setattr(up_student, key, value)
+            
         db.commit()
         db.refresh(up_student)
         return up_student

@@ -21,9 +21,11 @@ class UserRepository:
 
     async def updateUser(self, db: Session, id: int, user: User):
         userUpdate = db.query(User).filter(User.id == id).first()
-        userUpdate.name = user.name
-        userUpdate.email = user.email
-        userUpdate.password = user.password
+        update_data = user.dict(exclude_unset=True)
+
+        for key, value in update_data.items():
+            setattr(userUpdate, key, value)
+            
         db.commit()
         db.refresh(userUpdate)
         return userUpdate
