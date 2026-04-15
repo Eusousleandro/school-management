@@ -10,3 +10,15 @@ class Person(BaseModel):
     neighborhood: str
     state: str
     zip_code: str
+
+class PersonUpdate(Person):
+    name: str | None
+    cpf: str | None
+    rg: str | None
+    address: str | None
+    number: str | None
+    complement: str | None
+    city: str | None
+    neighborhood: str | None
+    state: str | None
+    zip_code: str | None

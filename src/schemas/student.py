@@ -1,22 +1,7 @@
 from pydantic import BaseModel, ConfigDict
-from schemas.person import Person
+from schemas.person import Person, PersonUpdate
 
-class StudentCreate(BaseModel):
-    person: Person
-    photo: str
-    name_responsible_father: str
-    name_responsible_mother: str
-    academy_responsible: str
-    financy_responsible: str
-    email_responsible_acadamy: str
-    financy_responsible_email: str
-    phone_responsible_academy: str
-    phone_responsible_financy: str
-
-class Student(StudentCreate):
-    id: int
-
-class StudentUpdate(BaseModel):
+class StudentBase(BaseModel):
     person: Person | None
     photo: str | None
     name_responsible_father: str | None
@@ -27,5 +12,15 @@ class StudentUpdate(BaseModel):
     financy_responsible_email: str | None
     phone_responsible_academy: str | None
     phone_responsible_financy: str | None
+
+class StudentCreate(StudentBase):
+    person: Person
+
+class StudentUpdate(StudentBase):
+    person: PersonUpdate | None
+
+class StudentResponse(StudentBase):
+    id: int
+    person: Person
 
 model_config = ConfigDict(from_attributes=True)
