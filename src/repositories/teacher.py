@@ -13,42 +13,20 @@ class TeacherRepository:
     
     @staticmethod
     async def create_teacher(self, db: Session, teacher: Teacher):
-        teacher = Teacher(
-            name=teacher.name,
-            email=teacher.email,
-            cpf=teacher.cpf,
-            rg=teacher.rg,
-            date_of_birth=teacher.date_of_birth,
-            address=teacher.address,
-            number=teacher.number,
-            complement=teacher.complement,
-            city=teacher.city,
-            neighborhood=teacher.neighborhood,
-            state=teacher.state,
-            zip_code=teacher.zip_code,
-            phone=teacher.phone
-        )
-        db.add(teacher)
+        new_teacher = Teacher(**teacher.dict())
+        db.add(new_teacher)
         db.commit()
-        db.refresh(teacher)
-        return teacher
+        db.refresh(new_teacher)
+        return new_teacher
     
     @staticmethod
     async def update_teacher(self, db: Session, id: int, teacher: Teacher):
         teacher_update = db.query(Teacher).filter(Teacher.id == id).first()
-        teacher_update.name = teacher.name
-        teacher_update.email = teacher.email
-        teacher_update.cpf = teacher.cpf
-        teacher_update.rg = teacher.rg
-        teacher_update.date_of_birth = teacher.date_of_birth
-        teacher_update.address = teacher.address
-        teacher_update.number = teacher.number
-        teacher_update.complement = teacher.complement
-        teacher_update.city = teacher.city
-        teacher_update.neighborhood = teacher.neighborhood
-        teacher_update.state = teacher.state
-        teacher_update.zip_code = teacher.zip_code
-        teacher_update.phone = teacher.phone
+        update_data = teacher.dict(exclude_unset=True)
+
+        for key, value in update_data.items():
+            setattr(update_data, key, value)
+            
         db.commit()
         db.refresh(teacher_update)
         return teacher_update
