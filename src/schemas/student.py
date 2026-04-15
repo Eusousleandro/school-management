@@ -1,17 +1,9 @@
 from pydantic import BaseModel, ConfigDict
+from schemas.person import Person
 
 class StudentCreate(BaseModel):
+    person: Person
     photo: str
-    name: str
-    cpf: str
-    rg: str
-    address: str
-    number: str
-    complement: str
-    city: str
-    neighborhood: str
-    state: str
-    zip_code: str
     name_responsible_father: str
     name_responsible_mother: str
     academy_responsible: str
@@ -25,17 +17,8 @@ class Student(StudentCreate):
     id: int
 
 class StudentUpdate(BaseModel):
+    person: Person | None
     photo: str | None
-    name: str | None
-    cpf: str | None
-    rg: str | None
-    address: str | None
-    number: str | None
-    complement: str | None
-    city: str | None
-    neighborhood: str | None
-    state: str | None
-    zip_code: str | None
     name_responsible_father: str | None
     name_responsible_mother: str | None
     academy_responsible: str | None
