@@ -1,8 +1,8 @@
 from fastapi import Depends, Request, Response, status
 from sqlmodel import Session
-from repositories.user_repository import UserRepository
+from repositories.user import UserRepository
 from schemas.user import User, UserCreate, UserUpdate
-from services.user_service import UserService
+from services.user import UserService
 from config.database.session import get_db
 
 repository = UserRepository()
