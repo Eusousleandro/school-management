@@ -6,19 +6,23 @@ class UserRepository:
     async def get_user(db: Session):
         return db.query(User).all()
     
+    @staticmethod
     async def get_user_id(self, db: Session, id: int):
         return db.query(User).filter(User.id == id).first()
 
+    @staticmethod
     async def get_user_email(self, db: Session, email: str):
         return db.query(User).filter(User.email == email).first()
 
+    @staticmethod
     async def create_user(self, db: Session, user: User):
         newUser = User(**user.dict())
         db.add(newUser)
         db.commit()
         db.refresh(newUser)
         return newUser
-
+    
+    @staticmethod
     async def updateUser(self, db: Session, id: int, user: User):
         userUpdate = db.query(User).filter(User.id == id).first()
         update_data = user.dict(exclude_unset=True)
@@ -29,8 +33,9 @@ class UserRepository:
         db.commit()
         db.refresh(userUpdate)
         return userUpdate
-
-    async def deleteUser(self, db: Session, id: int):
+    
+    @staticmethod
+    async def deleteUser(self, db: Session, id: int): 
         userToDelete = db.query(User).filter(User.id == id).first()
         db.delete(userToDelete)
         db.commit()
