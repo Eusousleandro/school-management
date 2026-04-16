@@ -8,7 +8,7 @@ from services.teacher import TeacherService
 repository = TeacherRepository()
 service = TeacherService(repository)
 
-class TeacjerService:
+class TeacherController:
     async def get_teachers(request: Request, response: Response, db: Session = Depends(get_db)):
         try:
             teachers = await service.get_teachers(db)
