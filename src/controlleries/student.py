@@ -1,5 +1,6 @@
 from fastapi import Depends, Request, Response, status
 from sqlmodel import Session
+from config.auth.auth import get_current_user
 from schemas.student import StudentCreate, StudentUpdate
 from repositories.student import StudentRepository
 from services.student import StudentService
@@ -9,7 +10,8 @@ repository = StudentRepository()
 service = StudentService(repository)
 
 class StudentController:
-    async def get_students(request: Request, response: Response, db: Session = Depends(get_db)):
+    async def get_students(request: Request, response: Response, 
+                db: Session = Depends(get_db), current_user = Depends(get_current_user) ):
         try:
             students = await service.get_students(db)
             response.status_code = status.HTTP_200_OK
@@ -18,7 +20,8 @@ class StudentController:
             response.status_code = status.HTTP_500_INTERNAL_SERVER_ERROR
             return {'Error:': str(error)}
 
-    async def get_student(request: Request, response: Response, id: int, db: Session = Depends(get_db)):
+    async def get_student(request: Request, response: Response, id: int, 
+                db: Session = Depends(get_db), current_user = Depends(get_current_user)):
         try:
             student = await service.get_student_id(db=db, id=id)
             response.status_code = status.HTTP_200_OK
@@ -28,9 +31,10 @@ class StudentController:
             return {'Error:': str(error)}
 
     async def create_student(request: Request, response: Response, 
-                student: StudentCreate, db: Session = Depends(get_db)):
+                student: StudentCreate, db: Session = Depends(get_db), 
+                current_user = Depends(get_current_user)):
         try:
-            student_data = request.json()
+            student_data = await request.json()
             student = StudentCreate(**student_data)
             new_student = await service.create_student(db=db, student=student)
             response.status_code = status.HTTP_201_CREATED
@@ -40,9 +44,10 @@ class StudentController:
             return {'Error:': str(error)}
 
     async def update_student(request: Request, response: Response, 
-                student: StudentUpdate, db: Session = Depends(get_db)):
+                student: StudentUpdate, db: Session = Depends(get_db),
+                current_user = Depends(get_current_user)):
         try:
-            student_update = request.json()
+            student_update = await request.json()
             student = StudentUpdate(**student_update)
             update_student = await service.update_student(db=db, id=id, student=student)
             return {'Student updated with sucess: ' + str(update_student.id): update_student} 
@@ -51,10 +56,12 @@ class StudentController:
             return {'Error:': str(error)}
 
     async def delete_student(request: Request, response: Response,
-           id: int, db: Session = Depends(get_db)):
+           id: int, db: Session = Depends(get_db), 
+           current_user = Depends(get_current_user)):
         try:
             student_delete = await service.delete_student(db=db, id=id)
             response.status_code = status.HTTP_200_OK
             return {'Student Deleted with sucess: ' + str(student_delete.id): student_delete}
         except Exception as error:
-            pass
+            response.status_code = status.HTTP_500_INTERNAL_SERVER_ERROR
+            return {'Error:': str(error)}

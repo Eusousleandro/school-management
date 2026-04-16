@@ -4,6 +4,7 @@ from repositories.user import UserRepository
 from schemas.user import  UserCreate, UserUpdate
 from services.user import UserService
 from config.database.session import get_db
+from config.security.security import hash_password
 
 repository = UserRepository()
 user_service = UserService(repository)
@@ -31,8 +32,7 @@ class UserController:
     async def createUser(request: Request, response: Response, user: UserCreate,
                 db: Session = Depends(get_db)):
         try:
-            user_data = await request.json()
-            user = UserCreate(**user_data)
+            user.password = hash_password(user.password)
             newUser = await user_service.create_user(db=db, user=user)
             response.status_code = status.HTTP_201_CREATED
             return {'User created with sucess: ' + str(newUser.id): newUser}
