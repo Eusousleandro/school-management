@@ -1,7 +1,7 @@
 from fastapi import APIRouter
 from controlleries.user import UserController
 
-user_router = APIRouter()
+user_router = APIRouter(prefix='/users', tags=['users'])
 
 user_router.get('/users', status_code=200)(UserController.getUsers)
 user_router.get('/users/{id}', status_code=201)(UserController.getUserId)
