@@ -13,7 +13,7 @@ class UserRepository:
         return db.query(User).filter(User.email == email).first()
 
     async def create_user(self, db: Session, user: User):
-        newUser = User(name=user.name, email=user.email, password=user.password)
+        newUser = User(**user.dict())
         db.add(newUser)
         db.commit()
         db.refresh(newUser)
