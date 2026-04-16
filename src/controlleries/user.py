@@ -1,7 +1,7 @@
 from fastapi import Depends, Request, Response, status
 from sqlmodel import Session
 from repositories.user import UserRepository
-from schemas.user import User, UserCreate, UserUpdate
+from schemas.user import  UserCreate, UserUpdate
 from services.user import UserService
 from config.database.session import get_db
 
@@ -51,6 +51,7 @@ class UserController:
         except Exception as error:
             response.status_code = status.HTTP_500_INTERNAL_SERVER_ERROR
             return { 'error': str(error) }
+    
     async def deleteUser(request: Request, response: Response, id: int, 
                    db: Session = Depends(get_db)):
         try:
