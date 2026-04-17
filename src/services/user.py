@@ -1,7 +1,7 @@
 from sqlmodel import Session
 from repositories.user import UserRepository
 from fastapi import HTTPException
-from schemas.user import User, UserCreate
+from schemas.user import UserBase, UserCreate
 
 class UserService:
     def __init__(self, repository: UserRepository):
@@ -29,7 +29,7 @@ class UserService:
             raise HTTPException(status_code=400, detail="User could not be created")
         return create_user
 
-    async def update_user(self, db: Session, id: int, user: User):
+    async def update_user(self, db: Session, id: int, user: UserBase):
         existing_user = self.repository.get_user_id(db=db, id=id)
         if not existing_user:
             raise HTTPException(status_code=404, detail="User not found")
