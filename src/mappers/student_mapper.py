@@ -5,7 +5,7 @@ from schemas.response.student_response import StudentResponse
 
 def to_student_response(student: Student)  -> StudentResponse:
     return StudentResponse(
-id=student.id,
+    id=student.id,
     person=PersonCreate(
         name=student.name,
         email=student.email,

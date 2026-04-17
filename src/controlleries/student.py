@@ -32,22 +32,11 @@ class StudentController:
     async def update_student(request: Request, response: Response, 
                 student: StudentUpdate, db: Session = Depends(get_db),
                 current_user = Depends(get_current_user)):
-        try:
-            student_update = await request.json()
-            student = StudentUpdate(**student_update)
-            update_student = await service.update_student(db=db, id=id, student=student)
-            return {'Student updated with sucess: ' + str(update_student.id): update_student} 
-        except Exception as error:
-            response.status_code = status.HTTP_500_INTERNAL_SERVER_ERROR
-            return {'Error:': str(error)}
+        
+        return await service.update_student(db=db, id=id, student=student)
 
     async def delete_student(request: Request, response: Response,
            id: int, db: Session = Depends(get_db), 
            current_user = Depends(get_current_user)):
-        try:
-            student_delete = await service.delete_student(db=db, id=id)
-            response.status_code = status.HTTP_200_OK
-            return {'Student Deleted with sucess: ' + str(student_delete.id): student_delete}
-        except Exception as error:
-            response.status_code = status.HTTP_500_INTERNAL_SERVER_ERROR
-            return {'Error:': str(error)}
+ 
+        return await service.delete_student(db=db, id=id)
