@@ -8,4 +8,4 @@ class TeacherResponse(BaseModel):
     academy: str | None
     person: PersonCreate
 
-    model_config = ConfigDict(from_attributes=True)
+model_config = ConfigDict(from_attributes=True)

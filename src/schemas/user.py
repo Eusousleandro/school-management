@@ -1,12 +1,12 @@
 from pydantic import BaseModel, ConfigDict
 
-class UserCreate(BaseModel):
+class UserBase(BaseModel):
     name: str
     email: str
     password: str
 
-class User(UserCreate):
-    id: int
+class UserCreate(UserBase):
+    pass
 
 class UserUpdate(BaseModel):
     name: str | None
