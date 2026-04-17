@@ -1,5 +1,5 @@
 from fastapi import HTTPException
-from requests import Session
+from sqlalchemy.orm import Session
 
 from repositories.teacher import TeacherRepository
 from schemas.teacher import TeacherCreate, TeacherUpdate

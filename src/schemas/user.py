@@ -13,9 +13,4 @@ class UserUpdate(BaseModel):
     email: str  | None
     password: str | None
 
-class UserResponse(UserCreate):
-    id: int
-    email: str  | None
-    password: str | None
-
 model_config = ConfigDict(from_attributes=True)

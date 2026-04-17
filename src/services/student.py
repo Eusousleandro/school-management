@@ -20,7 +20,7 @@ class StudentService:
         return studend
 
     async def create_student(self, db: Session, student: StudentCreate):
-        existing_student = await self.repository.get_student_cpf(db=db, cpf=student.cpf)
+        existing_student = await self.repository.get_student_cpf(db=db, cpf=student.person.cpf)
         if existing_student:
             raise HTTPException(status_code=400, detail="Student with this CPF already exists")
         

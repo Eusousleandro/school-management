@@ -1,5 +1,6 @@
 from sqlalchemy.orm import Session
 from models.student import Student
+from schemas.student import StudentCreate
 
 class StudentRepository: 
 
@@ -24,8 +25,11 @@ class StudentRepository:
         return db.query(Student).filter(Student.rg == rg).first()
 
     @staticmethod
-    async def create_student(db: Session, student: Student):
-        new_student = Student(**student.dict())
+    async def create_student(db: Session, student: StudentCreate):
+        person = student.person.model_dump()
+        student_data = student.model_dump(exclude={"person"})
+
+        new_student = Student(**person, **student_data)
         db.add(new_student)
         db.commit()
         db.refresh(new_student)

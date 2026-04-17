@@ -1,5 +1,6 @@
 from sqlalchemy.orm import Session
 from models.teacher import Teacher
+from schemas.teacher import TeacherBase
 
 class TeacherRepository: 
 
@@ -12,8 +13,13 @@ class TeacherRepository:
         return db.query(Teacher).filter(Teacher.id == id).first()
     
     @staticmethod
-    async def create_teacher(db: Session, teacher: Teacher):
-        new_teacher = Teacher(**teacher.dict())
+    async def create_teacher(db: Session, teacher: TeacherBase):
+        teacher  = teacher.person
+        new_teacher = teacher.model_dump(exclude_unset=True)
+
+        for key, values in new_teacher.items():
+            setattr(new_teacher, key, values)
+
         db.add(new_teacher)
         db.commit()
         db.refresh(new_teacher)

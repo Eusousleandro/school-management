@@ -1,26 +1,30 @@
 from pydantic import BaseModel, ConfigDict
-from schemas.person import Person, PersonUpdate
+from schemas.person import PersonCreate, PersonUpdate
 
 class StudentBase(BaseModel):
-    person: Person | None
-    photo: str | None
-    name_responsible_father: str | None
-    name_responsible_mother: str | None
-    academy_responsible: str | None
-    financy_responsible: str | None
-    email_responsible_acadamy: str | None
-    financy_responsible_email: str | None
-    phone_responsible_academy: str | None
-    phone_responsible_financy: str | None
+    photo: str | None = None
+    name_responsible_father: str | None = None
+    name_responsible_mother: str | None = None
+    academy_responsible: str | None = None
+    financy_responsible: str | None = None
+    email_responsible_acadamy: str | None = None
+    financy_responsible_email: str | None = None
+    phone_responsible_academy: str | None = None
+    phone_responsible_financy: str | None = None
 
 class StudentCreate(StudentBase):
-    person: Person
+    person: PersonCreate
 
-class StudentUpdate(StudentBase):
-    person: PersonUpdate | None
-
-class StudentResponse(StudentBase):
-    id: int
-    person: Person
+class StudentUpdate(BaseModel):
+    person: PersonUpdate | None = None
+    photo: str | None = None
+    name_responsible_father: str | None = None
+    name_responsible_mother: str | None = None
+    academy_responsible: str | None = None
+    financy_responsible: str | None = None
+    email_responsible_acadamy: str | None = None
+    financy_responsible_email: str | None = None
+    phone_responsible_academy: str | None = None
+    phone_responsible_financy: str | None = None
 
 model_config = ConfigDict(from_attributes=True)

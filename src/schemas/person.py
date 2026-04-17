@@ -1,25 +1,29 @@
-from pydantic import BaseModel
+from datetime import date
 
-class Person(BaseModel):
+from pydantic import BaseModel, EmailStr
+
+class PersonBase(BaseModel):
     name: str
+    email: EmailStr
     cpf: str
     rg: str
-    address: str
-    number: str
-    complement: str
-    city: str
-    neighborhood: str
-    state: str
-    zip_code: str
+    date_of_birth: date
+    phone: str | None = None
 
-class PersonUpdate(Person):
-    name: str | None
-    cpf: str | None
-    rg: str | None
-    address: str | None
-    number: str | None
-    complement: str | None
-    city: str | None
-    neighborhood: str | None
-    state: str | None
-    zip_code: str | None
+class PersonCreate(PersonBase):
+    pass
+
+class PersonUpdate(BaseModel):
+    name: str | None = None
+    email: EmailStr | None = None
+    cpf: str | None = None
+    rg: str | None = None
+    date_of_birth: date | None = None
+    address: str | None = None
+    number: str | None = None
+    complement: str | None = None
+    city: str | None = None
+    neighborhood: str | None = None
+    state: str | None = None
+    zip_code: str | None = None
+    phone: str | None = None

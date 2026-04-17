@@ -1,19 +1,14 @@
 from pydantic import BaseModel, ConfigDict
-from schemas.person import Person
+from schemas.person import PersonCreate, PersonUpdate
 
 class TeacherBase(BaseModel):
-    person: Person | None = None
     academy: str | None = None
 
 class TeacherCreate(TeacherBase):
-    person: Person
+    person: PersonCreate
 
-class TeacherUpdate(TeacherBase):
-    person: Person | None
+class TeacherUpdate(BaseModel):
     academy: str | None = None
-
-class TeacherResponse(TeacherBase):
-    id: int
-    person: Person
+    person: PersonUpdate | None = None
 
 model_config = ConfigDict(from_attributes=True)
