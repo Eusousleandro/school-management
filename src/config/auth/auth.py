@@ -7,7 +7,7 @@ SECRET_KEY = "A_MINHA_CHAVE_AQUI"
 ALGORITHM = "HS256"
 ACESS_TOKEN_MINUTES = 30
 
-oauth2_scheme = OAuth2PasswordBearer(tokenUrl="login")
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/auth/login")
 
 def get_current_user(token: str = Depends(oauth2_scheme)):
     try:
